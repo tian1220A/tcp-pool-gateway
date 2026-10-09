@@ -1,0 +1,10 @@
+[package]
+name = "mock-server"
+version = "0.1.0"
+edition = "2021"
+description = "Mock backend TCP business service (echo/uppercase with optional latency)"
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+protocol = { workspace = true }

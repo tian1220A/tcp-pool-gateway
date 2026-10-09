@@ -1,0 +1,22 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/tcp-pool",
+    "crates/protocol",
+    "crates/gateway",
+    "crates/mock-server",
+    "crates/demo-client",
+]
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+axum = "0.8"
+tcp-pool = { path = "crates/tcp-pool" }
+protocol = { path = "crates/protocol" }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

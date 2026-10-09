@@ -1,0 +1,10 @@
+[package]
+name = "demo-client"
+version = "0.1.0"
+edition = "2021"
+description = "Load-generating demo client for the TCP gateway"
+
+[dependencies]
+tokio = { workspace = true }
+anyhow = { workspace = true }
+protocol = { workspace = true }

@@ -1,0 +1,9 @@
+[package]
+name = "tcp-pool"
+version = "0.1.0"
+edition = "2021"
+description = "Self-built asynchronous TCP connection pool on Tokio"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }

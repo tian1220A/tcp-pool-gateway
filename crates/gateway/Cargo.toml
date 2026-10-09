@@ -1,0 +1,15 @@
+[package]
+name = "gateway"
+version = "0.1.0"
+edition = "2021"
+description = "TCP proxy gateway with HTTP admin API, backed by the tcp-pool"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+axum = { workspace = true }
+tower-http = { version = "0.6", features = ["fs"] }
+tcp-pool = { workspace = true }
+protocol = { workspace = true }
