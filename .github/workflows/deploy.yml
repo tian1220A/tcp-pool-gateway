@@ -44,21 +44,21 @@ jobs:
           printf 'Host deploy\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking accept-new\n' \
             "$SERVER_HOST" "$SERVER_USER" > ~/.ssh/config
 
-          # Prepare directories on the server (clean out stale frontend assets).
+          # 1. Stop old services so their binaries can be overwritten (avoids ETXTBSY).
+          ssh deploy 'pkill -x gateway || true; pkill -x mock-server || true; sleep 1'
+
+          # 2. Prepare directories (clean out stale frontend assets).
           ssh deploy 'rm -rf /root/tcp-pool-gateway/frontend/dist && mkdir -p /root/tcp-pool-gateway/target/release /root/tcp-pool-gateway/frontend/dist'
 
-          # Upload binaries and frontend bundle.
+          # 3. Upload binaries and frontend bundle.
           scp target/release/gateway target/release/mock-server target/release/demo-client \
             deploy:/root/tcp-pool-gateway/target/release/
           scp -r frontend/dist/. deploy:/root/tcp-pool-gateway/frontend/dist/
 
-          # Restart services.
+          # 4. Start services + health check.
           ssh deploy 'set -e
             cd /root/tcp-pool-gateway
             chmod +x target/release/gateway target/release/mock-server target/release/demo-client
-            pkill -x gateway || true
-            pkill -x mock-server || true
-            sleep 1
             (nohup ./target/release/mock-server --listen 127.0.0.1:9000 --latency-ms 5 >> mock-server.log 2>&1 &)
             (nohup ./target/release/gateway --backend 127.0.0.1:9000 --tcp-listen 0.0.0.0:8000 --http-listen 0.0.0.0:8080 >> gateway.log 2>&1 &)
             sleep 2
