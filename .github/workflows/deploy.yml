@@ -53,7 +53,7 @@ jobs:
           # 3. Upload binaries and frontend bundle.
           scp target/release/gateway target/release/mock-server target/release/demo-client \
             deploy:/root/tcp-pool-gateway/target/release/
-          scp -r frontend/dist/. deploy:/root/tcp-pool-gateway/frontend/dist/
+          scp -r frontend/dist/* deploy:/root/tcp-pool-gateway/frontend/dist/
 
           # 4. Start services + health check.
           ssh deploy 'set -e
